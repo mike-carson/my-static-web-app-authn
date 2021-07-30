@@ -44,7 +44,9 @@ export class NavComponent implements OnInit {
 
   async ngOnInit() {
     this.userInfo = await this.getUserInfo();
-    this.userInfo.identityProviderLabel = this.providers.find(p => p.value == this.userInfo.identityProvider).label;
+    if (this.userInfo) {
+      this.userInfo.identityProviderLabel = this.providers.find(p => p.value == this.userInfo.identityProvider).label;
+    }
   }
 
   async getUserInfo() {
