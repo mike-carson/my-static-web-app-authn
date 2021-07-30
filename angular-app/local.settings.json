@@ -1,0 +1,9 @@
+{
+  "Host": {
+    "CORS": "*"
+  },
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node"
+  },
+  "IsEncrypted": false
+}
