@@ -7,7 +7,7 @@ import { UserInfo } from '../model/user-info';
     <div class="user" *ngIf="userInfo">
       <p>Welcome</p>
       <p>{{ userInfo?.userDetails }}</p>
-      <p>{{ userInfo?.identityProvider }}</p>
+      <p>{{ userInfo?.identityProviderLabel || "-" }}</p>
       <p *ngFor="let role of userInfo?.userRoles">{{ role }}</p>
       <hr>
     </div>
@@ -38,17 +38,19 @@ import { UserInfo } from '../model/user-info';
   `,
 })
 export class NavComponent implements OnInit {
-  providers: any[] = [{value:"github",label:"GitHub"}, {value:"aad",label:"Active Directory"}];
+  providers: any[] = [{value:"github",label:"GitHub"}, {value:"aad",label:"Active Directory"}, {value:"google",label:"Google"}];
   redirect: string = window.location.pathname;
   userInfo: UserInfo;
 
   async ngOnInit() {
     this.userInfo = await this.getUserInfo();
+    this.userInfo.identityProviderLabel = this.providers.find(p => p.value == this.userInfo.identityProvider).label;
   }
 
   async getUserInfo() {
     try {
       const response = await fetch('/.auth/me');
+      console.log(response);
       const payload = await response.json();
       console.log(payload);
       const { clientPrincipal } = payload;
